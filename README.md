@@ -163,6 +163,8 @@ while num != 0:<br>
 print("Reversed Number: " + str(reversed_num))<br>
 **output:-***<br>
 Reversed Number: 4321<br>
+**11.program to compute a power of a number.**<br>
+
 
 
 
