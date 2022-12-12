@@ -164,6 +164,59 @@ print("Reversed Number: " + str(reversed_num))<br>
 **output:-***<br>
 Reversed Number: 4321<br>
 **11.program to compute a power of a number.**<br>
+<br>
+<br>
+<br>
+**Exercises programs.**<br>
+**1.Write a program to implement breadth first search using python.**<br>
+def dfs(graph, start, visited=None):<br>
+    if visited is None:<br>
+        visited = set()<br>
+    visited.add(start)<br>
+    print(start)<br>
+    for next in graph[start] - visited:<br>
+        dfs(graph, next, visited)<br>
+    return visited<br>
+graph = {'0': set(['1', '2']),<br>
+         '1': set(['0', '3', '4']),<br>
+         '2': set(['0']),<br>
+         '3': set(['1']),<br>
+         '4': set(['2', '3'])}<br>
+dfs(graph, '0')<br>
+<br>
+**Output:-**<br>
+0<br>
+1<br>
+4<br>
+2<br>
+3<br>
+3<br>
+2<br>
+{'0', '1', '2', '3', '4'}<br>
+<br>
+​**2.write a program to implement a deapth first search using python.**<br>
+import collections<br>
+def bfs(graph, root):<br>
+    visited, queue = set(), collections.deque([root])<br>
+    visited.add(root)<br>
+    while queue:<br>
+        vertex = queue.popleft()<br>
+        print(str(vertex) + " ", end="")<br>
+        for neighbour in graph[vertex]:<br>
+            if neighbour not in visited:<br>
+                visited.add(neighbour)<br>
+                queue.append(neighbour)<br>
+if __name__ == '__main__':<br>
+    graph = {0: [1, 2], 1: [2], 2: [3], 3: [1, 2]}<br>
+    print("Following is Breadth First Traversal: ")<br>
+    bfs(graph, 0)<br>
+    <br>
+   **Output:-**<br>
+   Following is Breadth First Traversal: <br>
+0 1 2 3 <br>
+<br>
+
+
 
 
 
