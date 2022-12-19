@@ -199,84 +199,36 @@ bfs(visited, graph, '1')<br>
  Following is the Breadth-First Search<br>
 1 2 10 3 8 4 9 5 6 7 <br>
 **2.write a program to implement a deapth first search using python.**<br>
-import collections<br>
-def bfs(graph, root):<br>
-    visited, queue = set(), collections.deque([root])<br>
-    visited.add(root)<br>
-    while queue:<br>
-        vertex = queue.popleft()<br>
-        print(str(vertex) + " ", end="")<br>
-        for neighbour in graph[vertex]:<br>
-            if neighbour not in visited:<br>
-                visited.add(neighbour)<br>
-                queue.append(neighbour)<br>
-if __name__ == '__main__':<br>
-    graph = {0: [1, 2], 1: [2], 2: [3], 3: [1, 2]}<br>
-    print("Following is Breadth First Traversal: ")<br>
-    bfs(graph, 0)<br>
-    <br>
+graph = {<br>
+'5' : ['3','7'],<br>
+'3' : ['2', '4'],<br>
+'7' : ['6'],<br>
+'6': [],<br>
+'2' : ['1'],<br>
+'1':[],<br>
+'4' : ['8'],<br>
+'8' : []<br>
+}<br>
+visited = set() <br>
+def dfs(visited, graph, node):<br>
+    if node not in visited:<br>
+        print (node)<br>
+    visited.add(node)<br>
+    for neighbour in graph[node]:<br>
+        dfs(visited, graph, neighbour)<br>
+print("Following is the Depth-First Search")<br>
+dfs(visited, graph, '5')<br>
    **Output:-**<br>
-   Following is Breadth First Traversal: <br>
-0 1 2 3 <br>
-<br>
-   class Node:
-    def __init__(self, key):
-        self.key = key
-        self.left = None
-        self.right = None
-def inorder(root):
-    if root is not None:
-        inorder(root.left)
-        print(str(root.key) + "->", end=' ')
-        inorder(root.right)
-def insert(node, key):
-    if node is None:
-        return Node(key)
-    if key < node.key:
-        node.left = insert(node.left, key)
-    else:
-        node.right = insert(node.right, key)
-    return node
-def minValueNode(node):
-    current = node
-    while(current.left is not None):
-        current = current.left
-    return current
-def deleteNode(root, key):
-    if root is None:
-        return root
-    if key < root.key:
-        root.left = deleteNode(root.left, key)
-    elif(key > root.key):
-        root.right = deleteNode(root.right, key)
-    else:
-        if root.left is None:
-            temp = root.right
-            root = None
-            return temp
-        elif root.right is None:
-            temp = root.left
-            root = None
-            return temp
-        temp = minValueNode(root.right)
-        root.key = temp.key
-        root.right = deleteNode(root.right, temp.key)
-    return root
-root = None
-root = insert(root, 8)
-root = insert(root, 3)
-root = insert(root, 1)
-root = insert(root, 6)
-root = insert(root, 7)
-root = insert(root, 10)
-root = insert(root, 14)
-root = insert(root, 4)
-print("Inorder traversal: ", end=' ')
-inorder(root)
-print("\nDelete 10")
-root = deleteNode(root, 10)
-print("Inorder traversal: ", end=' ')
-inorder(root)
+   Following is the Depth-First Search<br>
+5<br>
+3<br>
+2<br>
+1<br>
+4<br>
+8<br>
+7<br>
+6<br>
+   <br>
 **3.write a program to implement water jug problem using python.**<br>
 from collections import defaultdict<br>
 jug1, jug2, aim = 4, 3, 2<br>
@@ -394,8 +346,97 @@ Enter the Target/Destination Node: 1<br>
 <br>
 Path: 2 0 1 <br>
 <br>
-**6.
-​
+**6.Write a Program to Implement Tic-Tac-Toe application using Python.**<br>
+import numpy as np
+import random
+from time import sleep
+def create_board():
+    return(np.array([[0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]]))
+def possibilities(board):
+    l = []
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if board[i][j] == 0:
+                l.append((i, j))
+    return(l)
+def random_place(board, player):
+    selection = possibilities(board)
+    current_loc = random.choice(selection)
+    board[current_loc] = player
+    return(board)
+def row_win(board, player):
+    for x in range(len(board)):
+        win = True
+        for y in range(len(board)):
+            if board[x, y] != player:
+                win = False
+                continue
+            if win == True:
+                return(win)
+    return(win)
+def col_win(board, player):
+    for x in range(len(board)):
+        win = False
+        for y in range(len(board)):
+            if board[y][x] != player:
+                win = False
+                continue
+        if win == True:
+            return(win)
+    return(win)
+def diag_win(board, player):
+    win = True
+    y = 0
+    for x in range(len(board)):
+        if board[x, x] != player:
+            win = False
+    if win:
+        return win
+    win = True
+    if win:
+        for x in range(len(board)):
+            y = len(board) - 1 - x
+            if board[x,y]!=player:
+                win = True
+    return win
+def evaluate(board):
+    winner = 0
+    for player in [1, 2]:
+        if (row_win(board, player) or
+            col_win(board,player) or
+            diag_win(board,player)):
+            winner = player
+    if np.all(board != 0) and winner == 0:
+        winner = -1
+    return winner
+def play_game():
+    board, winner, counter = create_board(), 0, 1
+    print(board)
+    sleep(2)
+    while winner == 0:
+        for player in [1, 2]:
+            board = random_place(board, player)
+            print("Board after " + str(counter) + " move")
+            print(board)
+            sleep(2)
+            counter += 1
+            winner = evaluate(board)
+            if winner != 0:
+                break
+    return(winner)
+print("Winner is: " + str(play_game()))<br>
+   **output:-**
+   [[0 0 0]
+ [0 0 0]
+ [0 0 0]]
+Board after 1 move
+[[0 0 0]
+ [0 0 0]
+ [0 1 0]]
+Winner is: 2<br>
+
 
 
 
