@@ -169,32 +169,36 @@ Reversed Number: 4321<br>
 <br>
 **Exercises programs.**<br>
 **1.Write a program to implement breadth first search using python.**<br>
-def dfs(graph, start, visited=None):<br>
-    if visited is None:<br>
-        visited = set()<br>
-    visited.add(start)<br>
-    print(start)<br>
-    for next in graph[start] - visited:<br>
-        dfs(graph, next, visited)<br>
-    return visited<br>
-graph = {'0': set(['1', '2']),<br>
-         '1': set(['0', '3', '4']),<br>
-         '2': set(['0']),<br>
-         '3': set(['1']),<br>
-         '4': set(['2', '3'])}<br>
-dfs(graph, '0')<br>
-<br>
+graph = {<br>
+    '1' : ['2','10'],<br>
+    '2' : ['3','8'],<br>
+    '3' : ['4'],<br>
+    '4' : ['5','6','7'],<br>
+    '5' : [],<br>
+    '6' : [],<br>
+    '7' : [],<br>
+    '8' : ['9'],<br>
+    '9' : [],<br>
+    '10' : []<br>
+    }<br>
+visited = []<br>
+queue = []<br>
+def bfs(visited, graph, node):<br>
+    visited.append(node)<br>
+    queue.append(node)<br>
+    while queue:<br>
+        m = queue.pop(0)<br>
+        print (m, end = " ")<br>
+        for neighbour in graph[m]:<br>
+            if neighbour not in visited:<br>
+                visited.append(neighbour)<br>
+                queue.append(neighbour)<br>
+print("Following is the Breadth-First Search")<br>
+bfs(visited, graph, '1')<br>
 **Output:-**<br>
-0<br>
-1<br>
-4<br>
-2<br>
-3<br>
-3<br>
-2<br>
-{'0', '1', '2', '3', '4'}<br>
-<br>
-​**2.write a program to implement a deapth first search using python.**<br>
+ Following is the Breadth-First Search<br>
+1 2 10 3 8 4 9 5 6 7 <br>
+**2.write a program to implement a deapth first search using python.**<br>
 import collections<br>
 def bfs(graph, root):<br>
     visited, queue = set(), collections.deque([root])<br>
