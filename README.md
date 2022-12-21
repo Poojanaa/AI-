@@ -347,95 +347,137 @@ Enter the Target/Destination Node: 1<br>
 Path: 2 0 1 <br>
 <br>
 **6.Write a Program to Implement Tic-Tac-Toe application using Python.**<br>
-import numpy as np
-import random
-from time import sleep
-def create_board():
-    return(np.array([[0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]]))
-def possibilities(board):
-    l = []
-    for i in range(len(board)):
-        for j in range(len(board)):
-            if board[i][j] == 0:
-                l.append((i, j))
-    return(l)
-def random_place(board, player):
-    selection = possibilities(board)
-    current_loc = random.choice(selection)
-    board[current_loc] = player
-    return(board)
-def row_win(board, player):
-    for x in range(len(board)):
-        win = True
-        for y in range(len(board)):
-            if board[x, y] != player:
-                win = False
-                continue
-            if win == True:
-                return(win)
-    return(win)
-def col_win(board, player):
-    for x in range(len(board)):
-        win = False
-        for y in range(len(board)):
-            if board[y][x] != player:
-                win = False
-                continue
-        if win == True:
-            return(win)
-    return(win)
-def diag_win(board, player):
-    win = True
-    y = 0
-    for x in range(len(board)):
-        if board[x, x] != player:
-            win = False
-    if win:
-        return win
-    win = True
-    if win:
-        for x in range(len(board)):
-            y = len(board) - 1 - x
-            if board[x,y]!=player:
-                win = True
-    return win
-def evaluate(board):
-    winner = 0
-    for player in [1, 2]:
-        if (row_win(board, player) or
-            col_win(board,player) or
-            diag_win(board,player)):
-            winner = player
-    if np.all(board != 0) and winner == 0:
-        winner = -1
-    return winner
-def play_game():
-    board, winner, counter = create_board(), 0, 1
-    print(board)
-    sleep(2)
-    while winner == 0:
-        for player in [1, 2]:
-            board = random_place(board, player)
-            print("Board after " + str(counter) + " move")
-            print(board)
-            sleep(2)
-            counter += 1
-            winner = evaluate(board)
-            if winner != 0:
-                break
-    return(winner)
+import numpy as np<br>
+import random<br>
+from time import sleep<br>
+
+def create_board():<br>
+    return(np.array([[0, 0, 0],<br>
+              [0, 0, 0],<br>
+            [0, 0, 0]]))<br>
+
+def possibilities(board):<br>
+    l = []<br>
+<br>
+    for i in range(len(board)):<br>
+        for j in range(len(board)):<br>
+<br>
+            if board[i][j] == 0:<br>
+                l.append((i, j))<br>
+    return(l)<br>
+
+def random_place(board, player):<br>
+    selection = possibilities(board)<br>
+    current_loc = random.choice(selection)<br>
+    board[current_loc] = player<br>
+    return(board)<br>
+
+def row_win(board, player):<br>
+    for x in range(len(board)):<br>
+        win = True<br>
+
+        for y in range(len(board)):<br>
+            if board[x, y] != player:<br>
+                win = False<br>
+                continue<br>
+
+        if win == True:<br>
+            return(win)<br>
+    return(win)<br>
+
+def col_win(board, player):<br>
+    for x in range(len(board)):<br>
+        win = True<br>
+
+        for y in range(len(board)):<br>
+            if board[y][x] != player:<br>
+                win = False<br>
+                continue<br>
+
+        if win == True:<br>
+            return(win)<br>
+    return(win)<br>
+
+def diag_win(board, player):<br>
+    win = True<br>
+    y = 0<br>
+    for x in range(len(board)):<br>
+        if board[x, x] != player:<br>
+            win = False<br>
+    if win:<br>
+        return win<br>
+    win = True<br>
+    if win:<br>
+        for x in range(len(board)):<br>
+            y = len(board) - 1 - x<br>
+            if board[x, y] != player:<br>
+                win = False<br>
+    return win<br>
+<br>
+def evaluate(board):<br>
+    winner = 0<br>
+
+    for player in [1, 2]:<br>
+        if (row_win(board, player) or<br>
+            col_win(board,player) or<br>
+            diag_win(board,player)):<br>
+            winner = player<br>
+    if np.all(board != 0) and winner == 0:<br>
+            winner = -1<br>
+            <br>
+    return winner<br>
+def play_game():<br>
+    board, winner, counter = create_board(), 0, 1<br>
+    print(board)<br>
+    sleep(2)<br>
+
+    while winner == 0:<br>
+        for player in [1, 2]:<br>
+            board = random_place(board, player)<br>
+            print("Board after " + str(counter) + " move")<br>
+            print(board)<br>
+            sleep(2)<br>
+            counter += 1<br>
+            winner = evaluate(board)<br>
+            if winner != 0:<br>
+                break<br>
+    return(winner)<br>
 print("Winner is: " + str(play_game()))<br>
-   **output:-**
-   [[0 0 0]
- [0 0 0]
- [0 0 0]]
-Board after 1 move
-[[0 0 0]
- [0 0 0]
- [0 1 0]]
-Winner is: 2<br>
+<br>
+**Output:-**<br>
+[[0 0 0]<br>
+ [0 0 0]<br>
+ [0 0 0]]<br>
+Board after 1move<br>
+[[0 0 0]<br>
+ [0 1 0]<br>
+ [0 0 0]]<br>
+Board after 2 move<br>
+[[0 0 0]<br>
+ [0 1 0]<br>
+ [2 0 0]]<br>
+Board after 3 move<br>
+[[0 0 0]<br>
+ [0 1 0]<br>
+ [2 1 0]]<br>
+Board after 4 move<br>
+[[0 0 2]<br>
+ [0 1 0]<br>
+ [2 1 0]]<br>
+Board after 5 move<br>
+[[0 0 2]<br>
+ [0 1 1]<br>
+ [2 1 0]]<br>
+Board after 6 move<br>
+[[2 0 2]<br>
+ [0 1 1]<br>
+ [2 1 0]]<br>
+Board after 7 move<br>
+[[2 1 2]
+ [0 1 1]
+ [2 1 0]]
+Winner is: 1
+**7.Write a Program to Implement 8-Puzzle Problem using Python.**<br>
 
 
 
