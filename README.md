@@ -613,5 +613,129 @@ if __name__ == "__main__":<br>
 80
 <br>
 **9.Write a program to implement the FIND-S Algorithm for finding the most specific hypothesis based on a given set of training data samples. Read the training data from a .CSV file.**<br>
+import pandas as pd<br>
+import numpy as np<br>
+ <br>
+#to read the data in the csv file<br>
+data = pd.read_csv("Train.csv")<br>
+print(data,"")<br>
+ <br>
+#making an array of all the attributes<br>
+d = np.array(data)[:,:-1]<br>
+print("\n The attributes are:\n ",d)<br>
+ 
+#segragating the target that has positive and negative examples<br>
+target = np.array(data)[:,-1]<br>
+print("\n The target is: ",target)<br>
+ 
+#training function to implement find-s algorithm<br>
+def train(c,t):<br>
+    for i, val in enumerate(t):<br>
+        if val == "Yes":<br>
+            specific_hypothesis = c[i].copy()<br>
+            break<br>
+             
+    for i, val in enumerate(c):<br>
+        if t[i] == "Yes":<br>
+            for x in range(len(specific_hypothesis)):<br>
+                if val[x] != specific_hypothesis[x]:<br>
+                    specific_hypothesis[x] = '?'<br>
+                else:<br>
+                    pass<br>
+                 
+    return specific_hypothesis<br>
+ 
+#obtaining the final hypothesis<br>
+print("\n The final hypothesis is:",train(d,target))<br>
+**Output:-**<br>
+   Sunny  Warm Normal  Strong Warm.1    Same  Yes<br>
+0  Sunny  Warm   High  Strong   Warm    Same  Yes<br>
+1  Rainy  Cold   High  Strong   Warm  Change   No<br>
+2  Sunny  Warm   High  Strong   Cool  Change  Yes <br>
+<br>
+ The attributes are:<br>
+  [['Sunny' 'Warm' 'High' 'Strong' 'Warm' 'Same']<br>
+ ['Rainy' 'Cold' 'High' 'Strong' 'Warm' 'Change']<br>
+ ['Sunny' 'Warm' 'High' 'Strong' 'Cool' 'Change']]<br>
 
-   
+ The target is:  ['Yes' 'No' 'Yes']<br>
+
+ The final hypothesis is: ['Sunny' 'Warm' 'High' 'Strong' '?' '?']<br>
+**10.Write a program to implement the Candidate-Elimination algorithm, For a given set of training data examples stored in a .CSV file.**<br>
+import csv<br><br><br><br><br><br><br><br><br><br><br>
+with open("Train.csv")as csv_file:<br><br><br><br><br><br><br><br><br><br>
+    #csv_file=csv.reader(f)<br><br><br><br><br><br><br><br><br>
+    #data=list(csv_file)<br>
+    readcsv=csv.reader(csv_file,delimiter=',')<br><br><br><br><br><br><br>
+    data=[]<br><br><br><br><br><br>
+    for row in readcsv:<br><br><br><br><br>
+        data.append(row)<br><br><br><br>
+    s=data[1][:-1]<br><br><br>
+    g=[['?'for i in range(len(s))]for j in range(len(s))]<br><br>
+    for i in data:<br>
+        if i[-1]=="Yes":<br>
+            for j in range(len(s)):<br>
+                if i[j]!=s[j]:<br>
+                    s[j]='?'<br>
+                    g[j][j]='?'<br>
+        elif i[-1]=="No":<br>
+            for j in range(len(s)):<br>
+                if i[j]!=s[j]:<br>
+                      g[j][j]=s[j]<br>
+                else:<br>
+                    g[j][j]="?"<br>
+        print("\n steps of candidate elimination algorithm",data.index(i)+1)<br>
+        print(s)<br>
+        print(g)<br>
+    gh=[]<br>
+    for i in g:<br>
+        for j in i:<br>
+        
+            if j!='?':<br>
+            
+                gh.append(i)<br>
+                
+                break<br>
+                
+    print("\nFinal specific hypothesis:\n",s)<br>
+    
+    print("\nFinal general hypothesis:\n",gh)   <br>
+    **Output:=**<br>
+    steps of candidate elimination algorithm 1<br>
+['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']<br>
+
+[['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?']]<br>
+
+
+ steps of candidate elimination algorithm 2<br>
+ 
+['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']<br>
+
+[['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?']]<br>
+
+
+ steps of candidate elimination algorithm 3<br>
+ 
+['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']<br>
+
+[['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', 'Same']]<br>
+
+
+ steps of candidate elimination algorithm 4<br>
+ 
+['Sunny', 'Warm', '?', 'Strong', '?', '?']<br>
+
+[['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', '?']]<br>
+
+
+Final specific hypothesis:<br>
+
+ ['Sunny', 'Warm', '?', 'Strong', '?', '?']<br>
+ 
+
+Final general hypothesis:<br>
+
+ [['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?']]<br>
+ <br>
+ 
+
