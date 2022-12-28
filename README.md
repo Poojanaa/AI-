@@ -583,7 +583,7 @@ solve(initial, empty_tile_pos, final)<br>
 5  8  6  <br>
 0  7  4  <br>
 <br>
-**8.Write a Program to Implement Travelling Salesman problem using Python.<br>
+*8.Write a Program to Implement Travelling Salesman problem using Python.<br>
    from sys import maxsize<br>
 from itertools import permutations<br>
 V = 4<br>
