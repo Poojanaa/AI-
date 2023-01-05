@@ -739,46 +739,46 @@ Final general hypothesis:<br>
  <br>
  **11.Write a Program to Implement N-Queens Problem using Python.**<br>
  global N<br>
-N = 4
-def printSolution(board):
-    for i in range(N):
-        for j in range(N):
-            print (board[i][j], end = " ")
-        print()
-def isSafe(board, row, col):
-    for i in range(col):
-        if board[row][i] == 1:
-            return False
-    for i, j in zip(range(row, -1, -1),
-            range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-    for i, j in zip(range(row, N, 1),
-            range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-    return True
-def solveNQUtil(board, col):
-    if col >= N:
-        return True
-    for i in range(N):
-        if isSafe(board, i, col):
-            board[i][col] = 1
-        if solveNQUtil(board, col + 1) == True:
-            return True
-        board[i][col] = 0
-    return False
-def solveNQ():
-    board = [ [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0] ]
-    if solveNQUtil(board, 0) == False:
-        print ("Solution does not exist")
-        return False
-    printSolution(board)
-    return True
-solveNQ()
+N = 4<br>
+def printSolution(board):<br>
+    for i in range(N):<br>
+        for j in range(N):<br>
+            print (board[i][j], end = " ")<br>
+        print()<br>
+def isSafe(board, row, col):<br>
+    for i in range(col):<br>
+        if board[row][i] == 1:<br>
+            return False<br>
+    for i, j in zip(range(row, -1, -1),<br><br>
+            range(col, -1, -1)):<br>
+        if board[i][j] == 1:<br>
+            return False<br>
+    for i, j in zip(range(row, N, 1),<br>
+            range(col, -1, -1)):<br>
+        if board[i][j] == 1:<br>
+            return False<br>
+    return True<br>
+def solveNQUtil(board, col):<br>
+    if col >= N:<br>
+        return True<br>
+    for i in range(N):<br>
+        if isSafe(board, i, col):<br>
+            board[i][col] = 1<br>
+        if solveNQUtil(board, col + 1) == True:<br>
+            return True<br>
+        board[i][col] = 0<br>
+    return False<br>
+def solveNQ():<br>
+    board = [ [0, 0, 0, 0],<br>
+            [0, 0, 0, 0],<br>
+            [0, 0, 0, 0],<br>
+            [0, 0, 0, 0] ]<br>
+    if solveNQUtil(board, 0) == False:<br>
+        print ("Solution does not exist")<br><br>
+        return False<br>
+    printSolution(board)<br>
+    return True<br>
+solveNQ()<br>
 **Output:-**<br>
 1 0 0 0 <br>
 0 0 0 0 <br>
@@ -787,8 +787,282 @@ solveNQ()
 True<br>
 <br>
 **12.Write a Program to Implement A* algorithm using Python.<br>
+class Node():<br>
+    """A node class for A* Pathfinding"""<br>
+
+    def __init__(self, parent=None, position=None):<br>
+        self.parent = parent<br>
+        self.position = position<br>
+
+        self.g = 0<br>
+        self.h = 0<br>
+        self.f = 0<br>
+
+    def __eq__(self, other):<br>
+        return self.position == other.position<br>
 
 
+def astar(maze, start, end):<br>
+    """Returns a list of tuples as a path from the given start to the given end in the given maze"""<br>
 
+    # Create start and end node<br>
+    start_node = Node(None, start)<br>
+    start_node.g = start_node.h = start_node.f = 0<br>
+    end_node = Node(None, end)<br>
+    end_node.g = end_node.h = end_node.f = 0<br>
+
+    # Initialize both open and closed list<br>
+    open_list = []<br>
+    closed_list = []<br>
+
+    # Add the start node<br>
+    open_list.append(start_node)<br>
+
+    # Loop until you find the end<br>
+    while len(open_list) > 0:<br>
+
+        # Get the current node<br>
+        current_node = open_list[0]<br>
+        current_index = 0<br>
+        for index, item in enumerate(open_list):<br>
+            if item.f < current_node.f:<br>
+                current_node = item<br>
+                current_index = index<br>
+
+        # Pop current off open list, add to closed list<br>
+        open_list.pop(current_index)<br>
+        closed_list.append(current_node)<br>
+
+        # Found the goal<br>
+        if current_node == end_node:<br>
+            path = []<br>
+            current = current_node<br>
+            while current is not None:<br>
+                path.append(current.position)<br>
+                current = current.parent<br>
+            return path[::-1] # Return reversed path<br>
+
+        # Generate children<br>
+        children = []<br>
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares<br>
+
+            # Get node position<br>
+            node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])<br>
+
+            # Make sure within range<br>
+            if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) -1) or node_position[1] < 0:<br>
+                continue<br>
+
+            # Make sure walkable terrain<br><br>
+           
+            if maze[node_position[0]][node_position[1]] != 0:<br><br>
+           
+                continue<br><br>
+               
+
+            # Create new node<br><br>
+           
+            new_node = Node(current_node, node_position)<br><br>
+           
+
+            # Append<br><br>
+           
+            children.append(new_node)<br><br>
+           
+
+        # Loop through children<br><br>
+       
+        for child in children:<br><br>
+       
+
+            # Child is on the closed list<br><br>
+           
+            for closed_child in closed_list:<br><br>
+           
+                if child == closed_child:<br><br>
+               
+                    continue<br><br>
+                   
+
+            # Create the f, g, and h values<br><br>
+           
+            child.g = current_node.g + 1<br><br>
+           
+            child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)<br><br>
+           
+            child.f = child.g + child.h<br><br>
+           
+
+            # Child is already in the open list<br><br>
+           
+            for open_node in open_list:<br><br>
+           
+                if child == open_node and child.g > open_node.g:<br><br>
+               
+                    continue<br><br>
+                   
+
+            # Add the child to the open list<br><br>
+           
+            open_list.append(child)<br><br>
+           
+
+
+def main():<br>
+         #   0  1  2  3  4  5  6  7  8  9<br>
+        
+    maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #0<br>
+   
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #1<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #2<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #3<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #4<br>
+           
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  #5<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #6<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #7<br>
+           
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],  #8<br>
+           
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]  #9<br>
+           
+
+    start = (0, 0)<br>
+   
+    end = (7, 6)<br>
+   
+
+    path = astar(maze, start, end)<br>
+   
+    print(path)<br>
+   
+
+
+if __name__ == '__main__':<br>
+    main()<br>
+**Output:-**<br>
+[(0, 0), (1, 1), (2, 2), (3, 3), (4, 3), (5, 4), (6, 5), (7, 6)]<br>
+<br>
+<br>
+**OR**<br>
+<br>
+<br>
+def aStarAlgo(start_node, stop_node):<br>
+         
+        open_set = set(start_node) <br>
+        closed_set = set()<br>
+        g = {} #store distance from starting node<br>
+        parents = {}# parents contains an adjacency map of all nodes<br>
  
-
+        #ditance of starting node from itself is zero<br>
+        g[start_node] = 0<br>
+        #start_node is root node i.e it has no parent nodes<br>
+        #so start_node is set to its own parent node<br>
+        parents[start_node] = start_node<br>
+         
+         
+        while len(open_set) > 0:<br>
+            n = None<br>
+ 
+            #node with lowest f() is found<br>
+            for v in open_set:<br>
+                if n == None or g[v] + heuristic(v) < g[n] + heuristic(n):<br>
+                    n = v<br>
+             
+                     
+            if n == stop_node or Graph_nodes[n] == None:<br>
+                pass<br>
+            else:<br>
+                for (m, weight) in get_neighbors(n):<br>
+                    #nodes 'm' not in first and last set are added to first<br>
+                    #n is set its parent<br>
+                    if m not in open_set and m not in closed_set:<br>
+                        open_set.add(m)<br>
+                        parents[m] = n<br>
+                        g[m] = g[n] + weight<br>
+                         <br>
+     
+                    #for each node m,compare its distance from start i.e g(m) to the<br>
+                    #from start through n node<br>
+                    else:<br>
+                        if g[m] > g[n] + weight:<br>
+                            #update g(m)<br>
+                            g[m] = g[n] + weight<br>
+                            #change parent of m to n<br>
+                            parents[m] = n<br>
+                             
+                            #if m in closed set,remove and add to open<br>
+                            if m in closed_set:<br>
+                                closed_set.remove(m)<br>
+                                open_set.add(m)<br>
+ 
+            if n == None:<br>
+                print('Path does not exist!')<br>
+                return None<br>
+ 
+            # if the current node is the stop_node<br>
+            # then we begin reconstructin the path from it to the start_node<br>
+            if n == stop_node:<br>
+                path = []<br>
+ 
+                while parents[n] != n:<br>
+                    path.append(n)<br>
+                    n = parents[n]<br>
+ 
+                path.append(start_node)<br>
+ 
+                path.reverse()<br>
+ 
+                print('Path found: {}'.format(path))<br>
+                return path<br>
+ 
+ 
+            # remove n from the open_list, and add it to closed_list<br>
+            # because all of his neighbors were inspected<br>
+            open_set.remove(n)<br>
+            closed_set.add(n)<br>
+ 
+        print('Path does not exist!')<br>
+        return None<br>
+         
+#define fuction to return neighbor and its distance<br>
+#from the passed node<br>
+def get_neighbors(v):<br>
+    if v in Graph_nodes:<br>
+        return Graph_nodes[v]<br>
+    else:<br>
+        return None<br>
+#for simplicity we ll consider heuristic distances given<br>
+#and this function returns heuristic distance for all nodes<br>
+def heuristic(n):<br>
+        H_dist = {<br>
+            'A': 11,<br>
+            'B': 6,<br>
+            'C': 99,<br>
+            'D': 1,<br>
+            'E': 7,<br>
+            'G': 0,<br>
+             
+        }<br>
+ 
+        return H_dist[n]<br>
+ 
+#Describe your graph here <br> 
+Graph_nodes = {<br>
+    'A': [('B', 2), ('E', 3)],<br>
+    'B': [('C', 1),('G', 9)],<br>
+    'C': None,<br>
+    'E': [('D', 6)],<br>
+    'D': [('G', 1)],<br>
+     
+}<br>
+aStarAlgo('A', 'G')<br>
+**Output:-**<br>
+Path found: ['A', 'E', 'D', 'G']<br>
+['A', 'E', 'D', 'G']<br>
+<br>
