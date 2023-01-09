@@ -1066,7 +1066,7 @@ aStarAlgo('A', 'G')<br>
 Path found: ['A', 'E', 'D', 'G']<br>
 ['A', 'E', 'D', 'G']<br>
 <br>
-**13.**<br>
+**13.Write a Program to Implement AO* algorithm using Python.**<br>
   class Graph:<br>
     def __init__(self, graph, heuristicNodeList, startNode):<br>
         self.graph = graph<br>
@@ -1243,3 +1243,6 @@ FOR GRAPH SOLUTION, TRAVERSE THE GRAPH FROM THE STARTNODE: A<br>
 ------------------------------------------------------------<br>
    <br>
    <br>
+   **14.Write a program to demonstrate the working of the ID3 algorithm.**<br>
+   
+   
